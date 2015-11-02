@@ -159,6 +159,7 @@
       .css('left',0)
       .css('min-width','100%')
       .css('min-height','100%');
+      .css('max-height','698px')
 
     if (options.autoplay) {
       $video.attr('autoplay',options.autoplay);
