@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Caluladora Polaca</title>
+    <!-- Icono -->
+    <link rel="shortcut icon" type="image/x-icon" href="calculadoraIcono.ico" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+  </head>
+
+  <script type="text/javascript">
+
+    var actualNumero = '';
+    var arregloNumeros = new Array();
+    var ultNumero = '';
+    var penultNumero = '';
+
+    function ingresarNumero(){
+
+      if (actualNumero.length<1) {
+        alert("Debe ingresar número");
+      }else {
+        arregloNumeros.push(actualNumero);
+        cantArray();
+        actualNumero='';
+      }
+    }
+
+    function proxNumero(num){
+      actualNumero=actualNumero+num;
+      document.getElementById("calculadora").value = '';
+      if (arregloNumeros.length<1) {
+        document.getElementById("calculadora").value = '\n'+actualNumero;
+      }else {
+        document.getElementById("calculadora").value = arregloNumeros[arregloNumeros.length-1] +'\n'+actualNumero;
+      }
+
+    }
+    function cantArray(){
+      document.getElementById("cantArray").value = arregloNumeros.length;
+    }
+
+    function limpiar(){
+      document.getElementById("calculadora").value = "";
+      arregloNumeros = [];
+      actualNumero='';
+      cantArray();
+      alert("Calculadora como nueva");
+    }
+    function operacion(op){
+      if (arregloNumeros.length<=1) {
+        alert("Para usar la operacion "+op+" debe ingresar mínimo 2 números al arreglo");
+      }else{
+        ultNumero=arregloNumeros.pop();
+        penultNumero=arregloNumeros.pop();
+          switch(op) {
+            case '+':
+                ultNumero = parseFloat(ultNumero) + parseFloat(penultNumero);
+                break;
+            case '-':
+                ultNumero = parseFloat(ultNumero) - parseFloat(penultNumero);
+                break;
+            case '*':
+                ultNumero = parseFloat(ultNumero) * parseFloat(penultNumero);
+                break;
+            case '/':
+                ultNumero = parseFloat(ultNumero) / parseFloat(penultNumero);
+                break;
+            }
+        arregloNumeros.push(ultNumero);
+        if (arregloNumeros.length<=1) {
+          document.getElementById("calculadora").value = ultNumero;
+        }else {
+          document.getElementById("calculadora").value = arregloNumeros[arregloNumeros.length-2] +'\n'+arregloNumeros[arregloNumeros.length-1];
+        }
+        cantArray();
+      }
+    }
+
+    function addPunto(){
+      if (actualNumero.length<1) {
+        actualNumero = '0.'
+      }else {
+        actualNumero = actualNumero + '.';
+      }
+
+      document.getElementById("calculadora").value = '';
+      if (arregloNumeros.length<1) {
+        document.getElementById("calculadora").value = '\n'+actualNumero;
+      }else {
+        document.getElementById("calculadora").value = arregloNumeros[arregloNumeros.length-1] +'\n'+actualNumero;
+      }
+
+    }
+
+  </script>
+
+  <body>
+  <div class="container">
+      <div class="jumbotron">
+        <h1>Calculadora Notación Polaca</h1>
+        <p>Calculadora creada en Javascript y Bootstrap</p>
+      </div>
+      <div class="row">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4">
+          <!-- Calculadora -->
+          <div class="form-group">
+           <textarea class="form-control" rows="2" id="calculadora" readonly="true"></textarea>
+          </div>
+
+            <div class="btn-group btn-group-justified">
+             <a type="button" class="btn btn-primary" id="7" onclick=proxNumero(7) >7</a>
+             <a type="button" class="btn btn-primary" id="8" onclick=proxNumero(8) >8</a>
+             <a type="button" class="btn btn-primary" id="9" onclick=proxNumero(9) >9</a>
+             <a type="button" class="btn btn-default" id="+" onclick=operacion('+') >+</a>
+            </div>
+            <div class="btn-group btn-group-justified">
+             <a type="button" class="btn btn-primary" id="4" onclick=proxNumero(4) >4</a>
+             <a type="button" class="btn btn-primary" id="5" onclick=proxNumero(5) >5</a>
+             <a type="button" class="btn btn-primary" id="6" onclick=proxNumero(6) >6</a>
+             <a type="button" class="btn btn-default" id="-" onclick=operacion('-') >-</a>
+            </div>
+            <div class="btn-group btn-group-justified">
+             <a type="button" class="btn btn-primary" id="1" onclick=proxNumero(1) >1</a>
+             <a type="button" class="btn btn-primary" id="2" onclick=proxNumero(2) >2</a>
+             <a type="button" class="btn btn-primary" id="3" onclick=proxNumero(3) >3</a>
+             <a type="button" class="btn btn-default" id="*" onclick=operacion('*')>*</a>
+            </div>
+            <div class="btn-group btn-group-justified">
+             <a type="button" class="btn btn-default" id="limpiar" onclick="limpiar()">Limpiar</a>
+             <a type="button" class="btn btn-primary" id="0" onclick=proxNumero(0) >0</a>
+             <a type="button" class="btn btn-default" id="ingresar" onclick=ingresarNumero() >Ingresar</a>
+             <a type="button" class="btn btn-default" id="/" onclick=operacion('/')>/</a>
+            </div>
+            <div class="btn-group btn-group-justified">
+             <a type="button" class="btn btn-default" id="" disabled></a>
+             <a type="button" class="btn btn-primary" id="." onclick=addPunto() >.</a>
+             <a type="button" class="btn btn-default" id="" disabled></a>
+             <a type="button" class="btn btn-default" id="" disabled></a>
+            </div>
+        </div>
+        <div class="col-sm-4">
+          <h4>La cantidad de numeros en el arreglo son: </h4><input type="text" class="form-control" id="cantArray" value="0" name="cantArray" readonly="true">
+        </div>
+      </div>
+  </div>
+  </body>
+</html>
