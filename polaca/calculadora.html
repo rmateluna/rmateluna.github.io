@@ -18,6 +18,7 @@
     var arregloNumeros = new Array();
     var ultNumero = '';
     var penultNumero = '';
+    var cantNumeros = 0;
 
     function ingresarNumero(){
 
@@ -25,8 +26,9 @@
         alert("Debe ingresar número");
       }else {
         arregloNumeros.push(actualNumero);
-        cantArray();
         actualNumero='';
+        cantNumeros++;
+        cantArray();
       }
     }
 
@@ -42,12 +44,14 @@
     }
     function cantArray(){
       document.getElementById("cantArray").value = arregloNumeros.length;
+      document.getElementById("cantNumArreglo").value = cantNumeros;
     }
 
     function limpiar(){
       document.getElementById("calculadora").value = "";
       arregloNumeros = [];
       actualNumero='';
+      cantNumeros = 0;
       cantArray();
       alert("Calculadora como nueva");
     }
@@ -59,16 +63,16 @@
         penultNumero=arregloNumeros.pop();
           switch(op) {
             case '+':
-                ultNumero = parseFloat(ultNumero) + parseFloat(penultNumero);
+                ultNumero = parseFloat(penultNumero) + parseFloat(ultNumero);
                 break;
             case '-':
-                ultNumero = parseFloat(ultNumero) - parseFloat(penultNumero);
+                ultNumero = parseFloat(penultNumero) - parseFloat(ultNumero);
                 break;
             case '*':
-                ultNumero = parseFloat(ultNumero) * parseFloat(penultNumero);
+                ultNumero = parseFloat(penultNumero) * parseFloat(ultNumero);
                 break;
             case '/':
-                ultNumero = parseFloat(ultNumero) / parseFloat(penultNumero);
+                ultNumero = parseFloat(penultNumero) / parseFloat(ultNumero);
                 break;
             }
         arregloNumeros.push(ultNumero);
@@ -97,16 +101,30 @@
 
     }
 
+    function mostrarArreglo(){
+      if (arregloNumeros.length<1) {
+        alert('Numeros = []');
+      } else {
+        var numeros = '';
+        for (var i = 0; i < arregloNumeros.length; i++) {
+          numeros = numeros + arregloNumeros[i] + ", ";
+        }
+        numeros = numeros.slice(0, -2);
+        alert('Numeros = ['+numeros+']');
+      }
+    }
+
   </script>
 
   <body>
   <div class="container">
       <div class="jumbotron">
-        <h1>Calculadora Notación Polaca</h1>
+        <h1>Calculadora Notación Polaca Inversa</h1>
         <p>Calculadora creada en Javascript y Bootstrap</p>
       </div>
       <div class="row">
-        <div class="col-sm-4"></div>
+        <div class="col-sm-4">
+        </div>
         <div class="col-sm-4">
           <!-- Calculadora -->
           <div class="form-group">
@@ -138,7 +156,7 @@
              <a type="button" class="btn btn-default" id="/" onclick=operacion('/')>/</a>
             </div>
             <div class="btn-group btn-group-justified">
-             <a type="button" class="btn btn-default" id="" disabled></a>
+             <a type="button" class="btn btn-default" id="" onclick="mostrarArreglo()">Arreglo</a>
              <a type="button" class="btn btn-primary" id="." onclick=addPunto() >.</a>
              <a type="button" class="btn btn-default" id="" disabled></a>
              <a type="button" class="btn btn-default" id="" disabled></a>
@@ -147,7 +165,11 @@
         <div class="col-sm-4">
           <h4>La cantidad de numeros en el arreglo son: </h4><input type="text" class="form-control" id="cantArray" value="0" name="cantArray" readonly="true">
         </div>
+        <div class="col-sm-4">
+          <h4>La cantidad de numeros introducidos: </h4><input type="text" class="form-control" id="cantNumArreglo" value="0" name="cantNumArreglo" readonly="true">
+        </div>
       </div>
   </div>
   </body>
 </html>
+
